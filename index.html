@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Assistant Theme Generator – create a theme with live preview (YAML)</title>
+<meta name="description" content="Design a Home Assistant theme with colour pickers and presets, preview it live on a dashboard in light and dark mode, and copy the theme YAML.">
+<link rel="canonical" href="https://uselesssite.nl/ha-theme-generator/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="uselesssite.nl">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://uselesssite.nl/ha-theme-generator/">
+<meta property="og:title" content="Home Assistant Theme Generator – create a theme with live preview (YAML)">
+<meta property="og:description" content="Design a Home Assistant theme with colour pickers and presets, preview it live on a dashboard in light and dark mode, and copy the theme YAML.">
+<meta property="og:image" content="https://uselesssite.nl/ha-theme-generator/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Home Assistant Theme Generator – create a theme with live preview (YAML)">
+<meta name="twitter:description" content="Design a Home Assistant theme with colour pickers and presets, preview it live on a dashboard in light and dark mode, and copy the theme YAML.">
+<meta name="twitter:image" content="https://uselesssite.nl/ha-theme-generator/og.png">
+<meta name="theme-color" content="#039be5">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "HA Theme Generator", "url": "https://uselesssite.nl/ha-theme-generator/", "description": "Design a Home Assistant theme with colour pickers and presets, preview it live on a dashboard in light and dark mode, and copy the theme YAML.", "applicationCategory": "DesignApplication", "operatingSystem": "Any (web browser)", "browserRequirements": "Requires JavaScript", "inLanguage": "en", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "featureList": ["Presets to start from: Default, Nord, Dracula, Ocean, Forest, Sunset, Graphite and Soft", "Separate light and dark mode in one theme (modes:), or make dark from light in one click", "Card radius, border, shadow and font", "Live preview of a dashboard with sidebar, tiles and cards", "Contrast check for text (WCAG) so your theme stays readable", "Paste an existing theme to edit it; share a theme with a link"], "image": "https://uselesssite.nl/ha-theme-generator/og.png", "author": {"@type": "Person", "name": "Rein033", "url": "https://github.com/Rein033"}, "license": "https://opensource.org/licenses/MIT", "codeRepository": "https://github.com/Rein033/ha-theme-generator"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "uselesssite.nl", "item": "https://uselesssite.nl/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://uselesssite.nl/tools/"}, {"@type": "ListItem", "position": 3, "name": "HA Theme Generator", "item": "https://uselesssite.nl/ha-theme-generator/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I install a Home Assistant theme?", "acceptedAnswer": {"@type": "Answer", "text": "Add frontend: themes: !include_dir_merge_named themes to configuration.yaml, save the theme YAML as /config/themes/name.yaml, run Reload themes in Developer tools and pick the theme in your profile."}}, {"@type": "Question", "name": "Can one theme have a light and a dark mode?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. With Include both light and dark the theme uses modes:, and Home Assistant switches automatically with your device's light or dark setting."}}, {"@type": "Question", "name": "Can I edit an existing theme?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Click Paste theme, paste your theme YAML and it loads into the editor, including both modes."}}, {"@type": "Question", "name": "Why does the contrast check matter?", "acceptedAnswer": {"@type": "Answer", "text": "Text needs enough contrast with the card background to stay readable. The check uses the WCAG guideline: 4.5:1 or higher is good for normal text."}}]}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='7' fill='%2303a9f4'/%3E%3Crect x='9' y='10' width='14' height='3' rx='1.5' fill='%23fff'/%3E%3Crect x='9' y='15' width='10' height='3' rx='1.5' fill='%23fff' opacity='.7'/%3E%3Crect x='9' y='20' width='12' height='3' rx='1.5' fill='%23fff' opacity='.5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="base.css?v=2">
+<link rel="stylesheet" href="style.css?v=2">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script defer src="https://analytics.uselesssite.nl/script.js" data-website-id="c8741679-5df2-4679-9527-39cc9edc25c0"></script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./"><span class="logo"><i class="mdi mdi-palette-swatch-variant"></i></span>
+    <div><h1>HA Theme Generator</h1><small>Design a Home Assistant theme, copy the YAML</small></div></a>
+  <nav>
+    <button type="button" class="ib" id="theme" title="Light / dark"><i class="mdi mdi-theme-light-dark"></i></button>
+    <a href="https://uselesssite.nl/tools/" class="ghost"><i class="mdi mdi-view-grid-outline"></i> <span>All tools</span></a>
+    <a href="https://github.com/Rein033/ha-theme-generator" class="ghost"><i class="mdi mdi-github"></i> <span>GitHub</span></a>
+    <a href="https://buymeacoffee.com/rein033" class="coffee" target="_blank" rel="noopener"><i class="mdi mdi-coffee"></i> <span>Coffee</span></a>
+  </nav>
+</header>
+
+<main>
+<div class="cols">
+  <div>
+    <div class="panel">
+      <div class="tile-head"><div class="tile-ic"><i class="mdi mdi-star-four-points-outline"></i></div><div class="tile-txt"><b>Start from a preset</b><small>Then tweak anything you like</small></div></div>
+      <div class="presets" id="presets"></div>
+    </div>
+    <div class="panel">
+      <div class="tile-head"><div class="tile-ic"><i class="mdi mdi-palette"></i></div><div class="tile-txt"><b>Colours</b><small id="modesub"></small></div>
+        <div class="seg" id="mode"><button type="button" data-v="light"><i class="mdi mdi-white-balance-sunny"></i> Light</button><button type="button" data-v="dark"><i class="mdi mdi-weather-night"></i> Dark</button></div></div>
+      <div class="kleuren" id="kleuren"></div>
+      <div class="btns" style="margin-top:12px">
+        <button type="button" class="small" id="maakdonker"><i class="mdi mdi-weather-night"></i> Make dark from light</button>
+        <label class="tog"><input type="checkbox" id="modes"><span></span> Include both light and dark</label>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="tile-head"><div class="tile-ic"><i class="mdi mdi-card-outline"></i></div><div class="tile-txt"><b>Cards and text</b><small>Shape, depth and font</small></div></div>
+      <div class="form">
+        <div class="fld"><label>Theme name</label><input id="naam" placeholder="my_theme"></div>
+        <div class="fld"><label>Font</label><select id="font"></select></div>
+        <div class="fld"><label>Card corner radius: <b id="radv"></b></label><input type="range" id="rad" min="0" max="28"></div>
+        <div class="fld"><label>Card border width: <b id="bwv"></b></label><input type="range" id="bw" min="0" max="3"></div>
+        <div class="fld wide"><label>Card shadow</label><div class="seg" id="shadow"><button type="button" data-v="none">None</button><button type="button" data-v="subtle">Subtle</button><button type="button" data-v="soft">Soft</button><button type="button" data-v="strong">Strong</button></div></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="panel sticky">
+      <div class="tile-head"><div class="tile-ic"><i class="mdi mdi-eye"></i></div><div class="tile-txt"><b>Preview</b><small id="contrast"></small></div>
+        <div class="seg" id="pmode"><button type="button" data-v="light">Light</button><button type="button" data-v="dark">Dark</button></div></div>
+      <div class="ha" id="ha">
+        <aside><div class="sb-title">Home</div>
+          <div class="sb-item on"><i class="mdi mdi-view-dashboard"></i> Overview</div><div class="sb-item"><i class="mdi mdi-lightning-bolt"></i> Energy</div>
+          <div class="sb-item"><i class="mdi mdi-format-list-bulleted-type"></i> Logbook</div><div class="sb-item"><i class="mdi mdi-chart-box"></i> History</div><div class="sb-item"><i class="mdi mdi-cog"></i> Settings</div></aside>
+        <div class="hmain">
+          <div class="hbar"><i class="mdi mdi-menu"></i> Home <span style="flex:1"></span><i class="mdi mdi-magnify"></i><i class="mdi mdi-pencil"></i></div>
+          <div class="hgrid">
+            <div class="hcard tile on"><span class="tic"><i class="mdi mdi-lightbulb"></i></span><div><b>Living room</b><small>On · 80%</small></div></div>
+            <div class="hcard tile"><span class="tic"><i class="mdi mdi-lightbulb-outline"></i></span><div><b>Kitchen</b><small>Off</small></div></div>
+            <div class="hcard tile on2"><span class="tic"><i class="mdi mdi-thermostat"></i></span><div><b>Thermostat</b><small>Heating · 20.5 °C</small></div></div>
+            <div class="hcard tile"><span class="tic"><i class="mdi mdi-door-closed"></i></span><div><b>Front door</b><small>Closed</small></div></div>
+            <div class="hcard wide"><div class="ctitle">Climate</div>
+              <div class="erow"><i class="mdi mdi-thermometer"></i><span>Temperature</span><b>21.3 °C</b></div>
+              <div class="erow"><i class="mdi mdi-water-percent"></i><span>Humidity</span><b>48 %</b></div>
+              <div class="erow"><i class="mdi mdi-fan"></i><span>Ventilation</span><span class="sw-demo"></span></div>
+              <div class="erow"><i class="mdi mdi-weather-partly-cloudy"></i><span>Outside</span><small>Partly cloudy · 14 °C</small></div>
+              <div class="bbtn">Turn everything off</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="btns" style="margin-top:12px;justify-content:space-between">
+        <div class="btns"><button type="button" class="small" id="plak"><i class="mdi mdi-import"></i> Paste theme</button><button type="button" class="small" id="deel"><i class="mdi mdi-link-variant"></i> Share</button></div>
+        <div class="btns"><button type="button" class="small" id="dl"><i class="mdi mdi-download"></i> Download</button><button type="button" class="main" id="copy"><i class="mdi mdi-content-copy"></i> Copy YAML</button></div>
+      </div>
+      <div id="plakbox" hidden style="margin-top:10px"><textarea id="plaktekst" class="code" rows="7" placeholder="my_theme:&#10;  primary-color: '#03a9f4'"></textarea>
+        <div class="btns" style="margin-top:6px"><span class="hint bad" id="plakfout" style="flex:1;margin:0"></span><button type="button" class="main" id="laad">Load</button></div></div>
+      <pre class="yaml" id="yaml"></pre>
+      <details class="how"><summary>How do I install a theme?</summary>
+        <ol><li>Add this to <code>configuration.yaml</code> (once) and restart:<pre class="yaml mini">frontend:
+  themes: !include_dir_merge_named themes</pre></li>
+          <li>Save the YAML as <code>/config/themes/<span class="tn"></span>.yaml</code> (e.g. with the File editor or Studio Code Server add-on).</li>
+          <li>Run the action <b>Home Assistant Frontend: Reload themes</b> (<code>frontend.reload_themes</code>) in Developer tools.</li>
+          <li>Pick the theme in your <b>profile</b>, or for a single dashboard under its settings.</li></ol></details>
+    </div>
+  </div>
+</div>
+
+<section class="over">
+  <div class="panel">
+    <h2>What can HA Theme Generator do?</h2>
+    <p>Design a Home Assistant theme with colour pickers and presets, preview it live on a dashboard in light and dark mode, and copy the theme YAML.</p>
+    <ul class="kenm"><li>Presets to start from: Default, Nord, Dracula, Ocean, Forest, Sunset, Graphite and Soft</li><li>Separate light and dark mode in one theme (<code>modes:</code>), or make dark from light in one click</li><li>Card radius, border, shadow and font</li><li>Live preview of a dashboard with sidebar, tiles and cards</li><li>Contrast check for text (WCAG) so your theme stays readable</li><li>Paste an existing theme to edit it; share a theme with a link</li></ul>
+  </div>
+  <div class="panel"><h2>Frequently asked questions</h2><div class="faq"><details><summary>How do I install a Home Assistant theme?</summary><p>Add frontend: themes: !include_dir_merge_named themes to configuration.yaml, save the theme YAML as /config/themes/name.yaml, run Reload themes in Developer tools and pick the theme in your profile.</p></details><details><summary>Can one theme have a light and a dark mode?</summary><p>Yes. With Include both light and dark the theme uses modes:, and Home Assistant switches automatically with your device's light or dark setting.</p></details><details><summary>Can I edit an existing theme?</summary><p>Yes. Click Paste theme, paste your theme YAML and it loads into the editor, including both modes.</p></details><details><summary>Why does the contrast check matter?</summary><p>Text needs enough contrast with the card background to stay readable. The check uses the WCAG guideline: 4.5:1 or higher is good for normal text.</p></details></div></div>
+  <div class="panel"><h2>More free tools</h2><div class="rels"><a class="rel" href="https://uselesssite.nl/esphome-config-builder/"><span class="tile-ic"><i class="mdi mdi-chip"></i></span><span><b>ESPHome Config Builder</b><small>Pick a board and sensors, get the YAML</small></span></a><a class="rel" href="https://uselesssite.nl/ha-automation-builder/"><span class="tile-ic"><i class="mdi mdi-robot-outline"></i></span><span><b>HA Automation Builder</b><small>Build Home Assistant automations, copy the YAML</small></span></a><a class="rel" href="https://uselesssite.nl/ha-card-generator/"><span class="tile-ic"><i class="mdi mdi-view-dashboard-edit-outline"></i></span><span><b>HA Card Generator</b><small>Build Home Assistant cards, copy the YAML</small></span></a><a class="rel" href="https://uselesssite.nl/mdi-icon-search/"><span class="tile-ic"><i class="mdi mdi-magnify-scan"></i></span><span><b>MDI Icon Search</b><small>Find an icon, copy mdi:name</small></span></a><a class="rel" href="https://uselesssite.nl/universal-3d-cards/"><span class="tile-ic"><i class="mdi mdi-printer-3d-nozzle"></i></span><span><b>Universal 3D Cards</b><small>One 3D printer card for Home Assistant</small></span></a><a class="rel" href="https://uselesssite.nl/cv-generator/"><span class="tile-ic"><i class="mdi mdi-file-account-outline"></i></span><span><b>CV Generator</b><small>Modern cv maken en als PDF opslaan</small></span></a></div>
+    <p class="hint"><a href="https://uselesssite.nl/tools/">See all tools →</a></p></div>
+</section>
+
+</main>
+
+<footer>
+  Free and open source · Made by <a href="https://github.com/Rein033">Rein033</a> · Everything runs in your browser, nothing is sent anywhere ·
+  <a href="https://uselesssite.nl/tools/">More tools</a> · Not affiliated with Home Assistant, ESPHome or the Open Home Foundation
+</footer>
+<script src="base.js?v=2"></script>
+<script src="app.js?v=2"></script>
+</body>
+</html>

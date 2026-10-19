@@ -1,0 +1,36 @@
+.sticky { position: sticky; top: 80px; } @media (max-width: 900px) { .sticky { position: static; } }
+.tile-head .seg { flex: none; }
+.presets { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.presets button { border: 1px solid var(--line); background: var(--field); border-radius: 12px; padding: 8px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; align-items: stretch; font-weight: 600; font-size: .85rem; }
+.presets button:hover { border-color: var(--accent); }
+.presets .strip { display: flex; height: 22px; border-radius: 6px; overflow: hidden; } .presets .strip i { flex: 1; }
+.kleuren { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+@media (max-width: 520px) { .kleuren { grid-template-columns: minmax(0, 1fr); } }
+.kl { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kl input[type=color] { width: 38px; height: 34px; border: 1px solid var(--line); border-radius: 10px; padding: 2px; background: var(--field); cursor: pointer; flex: none; }
+.kl .t { flex: 1; min-width: 0; } .kl .t label { font-size: .78rem; font-weight: 600; color: var(--muted); display: block; }
+.kl .t input { padding: 4px 8px !important; font-family: var(--mono); font-size: .82rem; }
+.yaml { background: #1e1f24; color: #e6e6ea; border-radius: 12px; padding: 12px 14px; overflow: auto; max-height: 320px; font: .8rem/1.5 var(--mono); margin: 12px 0 0; }
+.yaml.mini { max-height: none; margin: 6px 0; }
+.how { margin-top: 12px; color: var(--muted); font-size: .9rem; } .how summary { cursor: pointer; font-weight: 600; color: var(--fg); } .how li { margin: 6px 0; }
+/* Nagebootst HA-dashboard: alles via de themavariabelen */
+.ha { display: grid; grid-template-columns: 150px minmax(0, 1fr); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); font-family: var(--t-font); font-size: 13px;
+  background: var(--t-bg); color: var(--t-text); min-height: 400px; }
+.ha aside { background: var(--t-sidebar); color: var(--t-sidebar-text); padding: 10px 6px; border-right: 1px solid var(--t-divider); }
+.sb-title { font-size: 17px; padding: 6px 10px 12px; } .sb-item { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; color: var(--t-sidebar-text); font-size: 13px; }
+.sb-item i { font-size: 20px; color: var(--t-sidebar-icon); } .sb-item.on { background: color-mix(in srgb, var(--t-primary) 14%, transparent); color: var(--t-primary); } .sb-item.on i { color: var(--t-primary); }
+.hbar { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--t-header); color: var(--t-header-text); font-size: 16px; } .hbar i { font-size: 20px; }
+.hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px; }
+.hcard { background: var(--t-card); border-radius: var(--t-radius); box-shadow: var(--t-shadow); border: var(--t-bw) solid var(--t-border); padding: 10px; min-width: 0; }
+.hcard.wide { grid-column: 1 / -1; padding: 14px 16px; }
+.tile { display: flex; gap: 10px; align-items: center; } .tile b { display: block; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .tile small { color: var(--t-text2); font-size: 12px; }
+.tile > div { min-width: 0; }
+.tic { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; flex: none; color: var(--t-icon); background: color-mix(in srgb, var(--t-icon) 20%, transparent); }
+.tile.on .tic { color: var(--t-lighton); background: color-mix(in srgb, var(--t-lighton) 20%, transparent); }
+.tile.on2 .tic { color: var(--t-accent); background: color-mix(in srgb, var(--t-accent) 20%, transparent); }
+.ctitle { font-size: 18px; margin-bottom: 8px; }
+.erow { display: flex; align-items: center; gap: 14px; padding: 7px 0; } .erow i { font-size: 22px; color: var(--t-icon); } .erow span:not(.sw-demo) { flex: 1; } .erow small { color: var(--t-text2); }
+.sw-demo { width: 34px; height: 14px; border-radius: 7px; background: color-mix(in srgb, var(--t-primary) 50%, transparent); position: relative; }
+.sw-demo::after { content: ''; position: absolute; right: -2px; top: -3px; width: 20px; height: 20px; border-radius: 50%; background: var(--t-primary); }
+.bbtn { margin-top: 10px; color: var(--t-primary); font-weight: 500; text-transform: uppercase; font-size: 12px; letter-spacing: .06em; border-top: 1px solid var(--t-divider); padding-top: 10px; }
+@media (max-width: 520px) { .ha { grid-template-columns: minmax(0, 1fr); } .ha aside { display: none; } }
